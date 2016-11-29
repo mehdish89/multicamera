@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- <arg name="uri" default="radio://0/80/250K" />
+  <arg name="frame" default="/tag_1" />
+  <arg name="frame" default="/crazyflie/base_link" />
+  <arg name="joy_dev" default="/dev/input/js0" />
+  <arg name="x" default="-0.31" />
+  <arg name="y" default="0.27" />
+  <arg name="z" default="0.15" /> -->
+
+  
+
+  <!-- <include file="$(find crazyflie_driver)/launch/crazyflie_server.launch">
+  </include> -->
+
+  <group ns="crazyflie">
+     <!-- <include file="$(find crazyflie_driver)/launch/crazyflie_add.launch">
+      <arg name="uri" value="$(arg uri)" />
+      <arg name="tf_prefix" value="crazyflie" /> -->
+      <!--arg name="enable_logging" value="False" /
+      <arg name="enable_logging" value="1" />
+    </include> -->
+
+    <!--node name="joy" pkg="joy" type="joy_node" output="screen">
+      <param name="dev" value="$(arg joy_dev)" />
+    </node-->
+
+    <!--node name="joystick_controller" pkg="crazyflie_demo" type="controller.py" output="screen">
+      <param name="use_crazyflie_controller" value="True" />
+    </node-->
+
+    <!-- <include file="$(find crazyflie_controller)/launch/crazyflie2.launch">
+      <arg name="frame" value="$(arg frame)" />
+    </include>
+
+    <node name="pose" pkg="crazyflie_demo" type="publish_pose.py" output="screen">
+      <param name="name" value="goal" />
+      <param name="rate" value="30" />
+      <param name="x" value="$(arg x)" />
+      <param name="y" value="$(arg y)" />
+      <param name="z" value="$(arg z)" />
+    </node> -->
+
+    <!--node pkg="tf" type="static_transform_publisher" name="baselink_broadcaster" args="0 0 0 0 0 0 1 $(arg frame) /crazyflie/base_link 100" /-->
+    <!--node pkg="tf" type="static_transform_publisher" name="baselink_broadcaster" args="0 0 0 0 0 0 1 $(arg frame) /tag_1 100" /-->
+  </group>
+
+
+  <!--node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="usb_cam" />
+    <param name="io_method" value="mmap"/>
+  </node-->
+    <!--node name="creative" pkg="usb_cam" type="usb_cam_node" output="screen" >
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="usb_cam" />
+    <param name="io_method" value="mmap"/>
+  </node-->
+
+
+<!-- <arg name="device" default="/dev/video0" />
+
+    <node name="creative" pkg="uvc_camera" type="uvc_camera_node" output="screen">
+      <remap from="image_raw/" to="creative/image_raw/" />
+      <remap from="camera_info/" to="creative/camera_info/" />
+      <param name="device" value="$(arg device)" />
+      <param name="width" value="640" />
+      <param name="height" value="480" />
+      <param name="format" value="yuyv" />
+      <param name="fps" value="60" />
+      <param name="auto_exposure" value="0" />
+      <param name="exposure_absolute" value="75" />
+      <param name="exposure_auto_priority" value="0" />
+      <param name="auto_white_balance" value="0" />
+      <param name="white_balance_temperature" value="2800" />
+      <param name="brightness" value="-45" />
+      <param name="auto_focus" value="0" />
+      <param name="focus_absolute" value="0" />
+      <param name="contrast" value="16" />
+      <param name="saturation" value="128" />
+      <param name="hue" value="0" />
+      <param name="gamma" value="100" />
+      <param name="sharpness" value="3" />
+      <param name="backlight_compensation" value="2" />
+      <param name="gain" value="30" />
+      <param name="auto_gain" value="0" />
+      <param name="horizontal_flip" value="0" />
+      <param name="vertical_flip" value="0" />
+      <param name="camera_info_url" value="file://$(find camera)/launch/ost.yaml"/>
+    </node>
+ -->
+
+
+<!-- <node name="pose_in_worldframe" pkg="camera" type="worldframe.py"/>
+<node name="tag_position" pkg="camera" type="position.py"  output="screen" />
+<node name="distribute_image" pkg="camera" type="distribute_image.py" output="screen"/> -->
+
+<!-- <node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector1" output="screen"
+args="camera_info:=/creative/camera_info image_rect:=/image1_1" launch-prefix="taskset -c 0">
+
+<rosparam param="tag_descriptions">
+[
+{id: 0, size: 0.039},
+{id: 1, size: 0.101},
+{id: 2, size: 0.101, frame_id: goal},
+
+]
+
+<param name="/image_rect" value="/image1_1"/>
+
+</rosparam>
+</node>
+
+
+<node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector2" output="screen"
+args="camera_info:=/creative/camera_info image_rect:=/image1_2" launch-prefix="taskset -c 1">
+
+<rosparam param="tag_descriptions">
+[
+{id: 0, size: 0.039},
+{id: 1, size: 0.101},
+{id: 2, size: 0.101, frame_id: goal},
+
+]
+
+<param name="/image_rect" value="/image1_2"/>
+
+</rosparam>
+</node> -->
+
+
+
+<arg name="prefix" default="" />
+
+<arg name="camera" default="0" />
+
+<group ns="camera_$(arg camera)">
+
+  <arg name="device" default="/dev/video$(arg camera)" />
+
+  <node name="pseye_$(arg camera)" pkg="uvc_camera" type="uvc_camera_node" output="screen" launch-prefix="taskset -c $(arg camera)" >
+    <!-- <remap from="image_raw/" to="creative/image_raw/" />
+    <remap from="camera_info/" to="creative/camera_info/" /> -->
+    <param name="device" value="$(arg device)" />
+    <param name="width" value="640" />
+    <param name="height" value="480" />
+    <param name="format" value="yuyv" />
+    <param name="fps" value="30" />
+    <param name="auto_exposure" value="0" />
+    <param name="exposure_absolute" value="75" />
+    <param name="exposure_auto_priority" value="0" />
+    <param name="auto_white_balance" value="0" />
+    <param name="white_balance_temperature" value="2800" />
+    <param name="brightness" value="-45" />
+    <param name="auto_focus" value="0" />
+    <param name="focus_absolute" value="0" />
+    <param name="contrast" value="16" />
+    <param name="saturation" value="128" />
+    <param name="hue" value="0" />
+    <param name="gamma" value="100" />
+    <param name="sharpness" value="3" />
+    <param name="backlight_compensation" value="2" />
+    <param name="gain" value="30" />
+    <param name="auto_gain" value="0" />
+    <param name="horizontal_flip" value="0" />
+    <param name="vertical_flip" value="0" />
+    <param name="camera_info_url" value="file://$(find camera)/launch/camera.yaml"/>
+  </node>
+<!--  -->
+  <node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector" output="screen" args="image_rect:=image_raw" launch-prefix="taskset -c $(arg camera)" >
+
+  <rosparam param="tag_descriptions" subst_value="True">
+    [
+      {id: 0, size: 0.172, frame_id: camera_$(arg camera)}
+    ]
+  </rosparam>
+  <param name="sensor_frame_id" value="world"/>
+  </node>
+
+  <node pkg="multi_camera" type="localize.py" name="localize_$(arg camera)" output="screen" args="$(arg camera)" launch-prefix="taskset -c $(arg camera)" />
+
+</group>
+
+<!--node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector4" output="screen"
+args="camera_info:=/usb_cam/camera_info image_rect:=/image2_1" launch-prefix="taskset -c 3">
+
+<rosparam param="tag_descriptions">
+[
+{id: 0, size: 0.039},
+{id: 1, size: 0.101},
+{id: 2, size: 0.162, frame_id: goal},
+
+]
+
+<param name="/image_rect" value="/image2_1"/>
+
+</rosparam>
+</node>
+
+
+<node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector5" output="screen"
+args="camera_info:=/usb_cam/camera_info image_rect:=/image2_2" launch-prefix="taskset -c 4">
+
+<rosparam param="tag_descriptions">
+[
+{id: 0, size: 0.039},
+{id: 1, size: 0.101},
+{id: 2, size: 0.162, frame_id: goal},
+
+]
+
+<param name="/image_rect" value="/image2_2"/>
+
+</rosparam>
+</node>
+
+<node pkg="apriltags_ros" type="apriltag_detector_node" name="apriltag_detector6" output="screen"
+args="camera_info:=/usb_cam/camera_info image_rect:=/image2_3" launch-prefix="taskset -c 5">
+
+<rosparam param="tag_descriptions">
+[
+{id: 0, size: 0.039},
+{id: 1, size: 0.101},
+{id: 2, size: 0.162, frame_id: goal},
+
+]
+
+<param name="/image_rect" value="/image2_3"/>
+
+</rosparam>
+</node-->
+<!--node name="crazyflie_log3" pkg="basic_log" type="log3.py" output="screen"/-->
+
+  <!-- run vicon bridge -->
+  <!--include file="$(find vicon_bridge)/launch/vicon.launch"/-->
+
+  <!-- run rviz -->
+  <!-- <param name="robot_description" command="$(find xacro)/xacro.py $(find crazyflie_description)/urdf/crazyflie.urdf.xacro" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find crazyflie_demo)/launch/crazyflie_pos.rviz" required="true" />
+  <node name="dynamicparam" pkg="dynarecon" type="server.py" output="screen" />
+  <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" /> 
+ -->
+</launch>
